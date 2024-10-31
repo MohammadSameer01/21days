@@ -10,6 +10,7 @@
 }
 body {
   perspective: 1000px;
+  overflow-x: hidden;
 }
 header {
   height: 65px;
@@ -22,6 +23,7 @@ header {
   top: 0;
   backdrop-filter: blur(18px);
   background: rgba(255, 255, 255, 0.5);
+  z-index: 1;
 }
 .logoCnt {
   font-weight: 600;
@@ -39,6 +41,8 @@ header {
   background: #f3f3f3;
   color: gray;
   font-weight: 500;
+  opacity: 0;
+  transition: all 0.6s ease;
 }
 .daysCompletedCount {
   color: black;
@@ -129,17 +133,31 @@ header {
   border-radius: 8px;
   background: white;
   color: gray;
+  transition: 0.3s ease;
+
+  perspective: 750px;
 }
 .dayCompletedClass {
   padding: 16px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
-  background: white;
   background: #7ee07e80;
   order: 1;
 }
-
+.completedTextClass {
+  animation: completedTextAnimation 0.3s ease;
+}
+@keyframes completedTextAnimation {
+  0% {
+    transform: translateZ(600px) translateY(-100px);
+    font-size: 2em;
+  }
+  100% {
+    transform: translate(0);
+    font-size: 1.3em;
+  }
+}
 .weekday {
   display: block;
   font-size: 0.75em;
@@ -159,13 +177,30 @@ header {
 }
 
 .taskOverSection {
-  transition: 2s ease;
+  /* transition: 2s ease;
   transform: rotateX(15deg);
   filter: blur(4px);
   box-shadow: 0 0 12px -6px black;
   overflow: hidden;
   height: calc(200vh - 65px);
-  scale: 0.5;
+  scale: 0.5; */
+
+  transition: 2s ease, scale 0.3s ease 2s;
+  transform: rotateX(45deg) translateY(-50%);
+  box-shadow: 0 0 12px -6px black;
+  overflow-x: hidden;
+  scale: 1.2;
+  animation: animation 3s linear infinite 2s alternate;
+}
+
+@keyframes animation {
+  0% {
+    scale: 1.2;
+  }
+  100% {
+    scale: 0.5;
+    transform: rotateX(-45deg);
+  }
 }
 footer {
   position: absolute;
@@ -196,7 +231,7 @@ footer {
 }
 
 .dayCompletedTransition {
-  color: red;
-  transition: 0.6s ease;
+  background: #7ee07e80;
   transform: translateY(100vh);
+  transition: transform 0.9s ease 0.3s, background 0.3s;
 }
