@@ -52,7 +52,7 @@ boxes.forEach((box, index) => {
         box.classList.remove("box");
         box.classList.add("dayCompletedClass");
         box.classList.remove("dayCompletedTransition");
-      }, 600);
+      }, 900);
 
       currentIndex++;
       daysCompletedCount++;
@@ -66,6 +66,7 @@ boxes.forEach((box, index) => {
       dayCompletedEffectFunction(box);
       daysCompletedCountFunc();
       buttonBackgroundFunc();
+      buttonBackgroundDisplayerFunc();
       taskOverFunc();
     } else if (
       !box.classList.contains("dayCompletedClass") &&
@@ -98,6 +99,12 @@ function buttonBackgroundFunc() {
   )`;
 }
 
+function buttonBackgroundDisplayerFunc() {
+  if (daysCompletedCount >= 1) {
+    daysCompletedDisplayer.style.opacity = "1";
+  }
+}
+
 function taskOverFunc() {
   if (daysCompletedCount === 21) {
     let allEle = document.querySelectorAll("*");
@@ -114,7 +121,11 @@ function taskOverFunc() {
 function dayCompletedEffectFunction(box) {
   const dayCount = box.querySelector(".dayCount");
   if (dayCount) {
-    dayCount.append(" Completed");
+    // dayCount.append(" Completed");
+    completed = document.createElement("p");
+    completed.innerText = "Completed";
+    completed.setAttribute("class",'completedTextClass');
+    dayCount.append(completed);
     dayCount.classList.add("dayCompletedCount");
   }
 }
@@ -122,6 +133,7 @@ function dayCompletedEffectFunction(box) {
 // Load initial count and background
 daysCompletedCountFunc();
 buttonBackgroundFunc();
+buttonBackgroundDisplayerFunc();
 
 // Reapply the dayCompletedCount class from localStorage
 boxes.forEach((box, index) => {
