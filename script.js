@@ -1,19 +1,22 @@
 let boxes = document.querySelectorAll(".box");
 let daysCompletedCount =
   parseInt(localStorage.getItem("daysCompletedCount")) || 0;
-const weekdays = [
-  "Friday",
-  "Saturday",
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-];
+
+// const weekdays = [
+//   "Friday",
+//   "Saturday",
+//   "Sunday",
+//   "Monday",
+//   "Tuesday",
+//   "Wednesday",
+//   "Thursday",
+// ];
+
 let daysCompletedDisplayer = document.querySelector(".daysCompletedDisplayer");
 let currentIndex = parseInt(localStorage.getItem("currentIndex")) || 0;
 let clearStorageButton = document.querySelector(".clearStorage");
 let editButton = document.querySelector(".editButton");
+let cleanSound = new Audio("assets/cleanSound.mp3");
 
 // Load saved state for each box
 boxes.forEach((box, index) => {
@@ -25,28 +28,30 @@ boxes.forEach((box, index) => {
 });
 
 // Initialize day numbers and dates for each box
-for (let i = 0; i < boxes.length; i++) {
-  let dateContainer = document.createElement("div");
-  dateContainer.setAttribute("class", "dateContainer");
-  dateContainer.innerHTML = `
-    <span class='boxDate'>${String(i + 1).padStart(2, "0")} November 2024</span>
-    <span class="weekday">${weekdays[i % weekdays.length]}</span>
-  `;
-  boxes[i].appendChild(dateContainer);
+// for (let i = 0; i < boxes.length; i++) {
+//   let dateContainer = document.createElement("div");
+//   dateContainer.setAttribute("class", "dateContainer");
+//   dateContainer.innerHTML = `
+//     <span class='boxDate'>${String(i + 1).padStart(2, "0")} November 2024</span>
+//     <span class="weekday">${weekdays[i % weekdays.length]}</span>
+//   `;
+//   boxes[i].appendChild(dateContainer);
 
-  let dayCount = document.createElement("div");
-  dayCount.setAttribute("class", "dayCount");
-  dayCount.innerHTML = `Day <span class='dayCountNumberClass'>${i + 1}</span>`;
-  boxes[i].append(dayCount);
-}
+//   let dayCount = document.createElement("div");
+//   dayCount.setAttribute("class", "dayCount");
+//   dayCount.innerHTML = `Day <span class='dayCountNumberClass'>${i + 1}</span>`;
+//   boxes[i].append(dayCount);
+// }
 
 // Click event for boxes
 boxes.forEach((box, index) => {
   box.addEventListener("dblclick", () => {
     if (
       !box.classList.contains("dayCompletedClass") &&
-      index === currentIndex
+      index === currentIndex &&
+      box.innerHTML !== ""
     ) {
+      navigator.vibrate(100);
       box.classList.add("dayCompletedTransition");
       setTimeout(() => {
         box.classList.remove("box");
@@ -68,6 +73,8 @@ boxes.forEach((box, index) => {
       buttonBackgroundFunc();
       buttonBackgroundDisplayerFunc();
       taskOverFunc();
+
+      inputDateContainerHideFunc();
     } else if (
       !box.classList.contains("dayCompletedClass") &&
       index !== currentIndex
@@ -124,7 +131,7 @@ function dayCompletedEffectFunction(box) {
     // dayCount.append(" Completed");
     completed = document.createElement("p");
     completed.innerText = "Completed";
-    completed.setAttribute("class",'completedTextClass');
+    completed.setAttribute("class", "completedTextClass");
     dayCount.append(completed);
     dayCount.classList.add("dayCompletedCount");
   }
@@ -134,6 +141,8 @@ function dayCompletedEffectFunction(box) {
 daysCompletedCountFunc();
 buttonBackgroundFunc();
 buttonBackgroundDisplayerFunc();
+
+inputDateContainerHideFunc();
 
 // Reapply the dayCompletedCount class from localStorage
 boxes.forEach((box, index) => {
@@ -156,12 +165,17 @@ function formatDate(date) {
 
 clearStorageButton.addEventListener("click", () => {
   localStorage.clear();
+  navigator.vibrate(200);
+  cleanSound.play();
 
-  clearStorageButton.style.width = "100%";
-  clearStorageButton.style.justifyContent = "unset";
+  trashIconStylingsFunc();
+
+  // clearStorageButton.style.width = "100%";
+  // clearStorageButton.style.justifyContent = "unset";
+  clearStorageButton.style.display = "none";
 
   let text = document.querySelector(".clearStorage p");
-  text.innerText = "Clearing All";
+  text.innerText = "Clearing";
 
   let section = document.querySelector("section");
   section.style.scale = ".15";
@@ -206,3 +220,24 @@ window.onload = () => {
 editButton.addEventListener("click", () => {
   reasonEditFunc();
 });
+
+//
+function trashIconStylingsFunc() {
+  let trashContainer = document.querySelector(".trashContainer");
+  let trashIcon = document.querySelector(".trash-icon");
+  let lid = document.querySelector(".lid");
+
+  trashContainer.classList.add("trashContainerStart");
+  trashIcon.classList.add("trashIconStart");
+  lid.classList.add("lidStart");
+}
+
+function inputDateContainerHideFunc() {
+  if (daysCompletedCount >= 1) {
+    let inputDateContainer = document.querySelector(".inputDateContainer");
+    inputDateContainer.classList.add("inputDateContainerHide");
+    setTimeout(() => {
+      inputDateContainer.style.display = "none";
+    }, 300);
+  }
+}
