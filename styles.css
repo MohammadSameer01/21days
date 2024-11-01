@@ -7,6 +7,7 @@
   box-sizing: border-box;
   font-family: var(--ffPoppins);
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   perspective: 1000px;
@@ -89,9 +90,40 @@ header {
   display: grid;
   place-content: center;
   padding: 12px;
+  cursor: pointer;
 }
 .editButton svg {
   height: 20px;
+}
+
+/*  */
+
+.inputDateContainer {
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  transition: 0.3s ease;
+}
+.inputDateContainerHide {
+  filter: blur(2px);
+}
+.inputDateContainer input {
+  padding: 12px;
+  background: transparent;
+  border-radius: 6px;
+  width: 60%;
+}
+.inputDateContainer button {
+  border: 0;
+  padding: 12px;
+  background: #7ee07e80;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.inputDateContainer button:active {
+  scale: 0.9;
 }
 .container {
   padding: 4px 12px;
@@ -100,6 +132,7 @@ header {
   gap: 4px;
   background: #f3f3f3;
 }
+
 .box {
   padding: 16px;
   border-radius: 8px;
@@ -109,9 +142,9 @@ header {
   /* background: white; */
   cursor: pointer;
 
-  -webkit-tap-highlight-color: transparent;
   user-select: none;
   min-height: 70px;
+  overflow: hidden;
 }
 
 .dayCount {
@@ -221,7 +254,6 @@ footer {
   background: red;
   color: white;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
   transition: 0.3s ease;
   justify-content: center;
 }
@@ -234,4 +266,88 @@ footer {
   background: #7ee07e80;
   transform: translateY(100vh);
   transition: transform 0.9s ease 0.3s, background 0.3s;
+}
+
+/* trashIconStylings */
+
+.trashContainer {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: translateY(100%);
+  height: 0;
+  visibility: hidden;
+}
+
+.trashContainerStart {
+  transform: translateY(-100%);
+  height: auto;
+  visibility: visible;
+}
+
+.trash-icon {
+  width: 80px;
+  height: 100px;
+  position: relative;
+  margin: 20px;
+  scale: 1.5;
+
+  height: 0;
+  transition: 0.3s ease;
+}
+
+.trashIconStart {
+  height: 100px;
+}
+
+/* Bin Base */
+.trash-icon .bin {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  border-radius: 5px;
+  position: relative;
+
+  background-image: url(assets/recycle.png);
+  background-size: 40px;
+  background-position: center;
+  background-position-y: 40px;
+  background-repeat: no-repeat;
+}
+
+/* Bin Lid */
+.trash-icon .lid {
+  width: 100%;
+  height: 8px;
+  background-color: #000;
+  position: absolute;
+  top: -10px;
+  border-radius: 3px;
+  transition: all 0.3s ease, transform 0.3s ease 0.3s;
+
+  height: 0;
+}
+
+.lidStart {
+  height: 8px !important;
+  transform: rotateZ(-120deg);
+  transform-origin: left;
+}
+
+/* Handle */
+.trash-icon .lid .handle {
+  width: 12px;
+  height: 4px;
+  background-color: #000;
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
 }
