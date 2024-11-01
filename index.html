@@ -54,6 +54,10 @@
       </div>
     </div>
     <section>
+      <div class="inputDateContainer">
+        <input type="date" id="startDateInput" />
+        <button id="generateDatesButton">Generate Dates</button>
+      </div>
       <div class="container">
         <div class="box"></div>
         <div class="box"></div>
@@ -88,7 +92,98 @@
         </svg>
         <p>Clear All</p>
       </div>
+      <div class="trashContainer">
+        <div class="trash-icon">
+          <div class="bin">
+            <div class="lid">
+              <div class="handle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </footer>
     <script src="script.js"></script>
+    <script>
+      // Function to load saved state from localStorage
+      function loadSavedState() {
+        const savedDate = localStorage.getItem("startDate");
+        if (savedDate) {
+          document.getElementById("startDateInput").value = savedDate;
+          generateDates(savedDate);
+        }
+      }
+
+      // Function to generate dates based on selected start date
+      function generateDates(startDateInput) {
+        const startDate = new Date(startDateInput);
+
+        // Initialize day numbers and dates for each box
+        for (let i = 0; i < boxes.length; i++) {
+          let currentDate = new Date(startDate);
+          currentDate.setDate(startDate.getDate() + i);
+
+          // Clear any existing date content in the box
+          boxes[i].innerHTML = "";
+
+          // Create and append the date container
+          let dateContainer = document.createElement("div");
+          dateContainer.setAttribute("class", "dateContainer");
+          dateContainer.innerHTML = `
+      <span class='boxDate'>${currentDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} 
+      ${currentDate.toLocaleString("default", {
+        month: "long",
+      })} ${currentDate.getFullYear()}</span>
+      <span class="weekday">${currentDate.toLocaleString("default", {
+        weekday: "long",
+      })}</span>
+    `;
+          boxes[i].appendChild(dateContainer);
+
+          // Create and append the day count
+          let dayCount = document.createElement("div");
+          dayCount.setAttribute("class", "dayCount");
+          dayCount.innerHTML = `Day <span class='dayCountNumberClass'>${
+            i + 1
+          }</span>`;
+          boxes[i].append(dayCount);
+        }
+      }
+
+      // Load saved state on page load
+      loadSavedState();
+
+      document
+        .getElementById("generateDatesButton")
+        .addEventListener("click", () => {
+          // Get the selected start date
+          navigator.vibrate(25);
+          const startDateInput =
+            document.getElementById("startDateInput").value;
+          if (!startDateInput) return alert("Please select a start date.");
+
+          // Store the selected start date in localStorage
+          localStorage.setItem("startDate", startDateInput);
+
+          // Generate dates based on the selected start date
+          generateDates(startDateInput);
+        });
+    </script>
+    <script>
+      // Get the current date
+      const today = new Date();
+
+      // Format the date to YYYY-MM-DD
+      const formattedDate = today.toISOString().split("T")[0];
+
+      // Set the default value of the input field
+      document.addEventListener("DOMContentLoaded", () => {
+        const startDateInput = document.getElementById("startDateInput");
+        startDateInput.value = formattedDate;
+        startDateInput.max = formattedDate;
+      });
+    </script>
   </body>
 </html>
