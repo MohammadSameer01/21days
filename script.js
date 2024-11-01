@@ -2,16 +2,6 @@ let boxes = document.querySelectorAll(".box");
 let daysCompletedCount =
   parseInt(localStorage.getItem("daysCompletedCount")) || 0;
 
-// const weekdays = [
-//   "Friday",
-//   "Saturday",
-//   "Sunday",
-//   "Monday",
-//   "Tuesday",
-//   "Wednesday",
-//   "Thursday",
-// ];
-
 let daysCompletedDisplayer = document.querySelector(".daysCompletedDisplayer");
 let currentIndex = parseInt(localStorage.getItem("currentIndex")) || 0;
 let clearStorageButton = document.querySelector(".clearStorage");
@@ -240,4 +230,13 @@ function inputDateContainerHideFunc() {
       inputDateContainer.style.display = "none";
     }, 300);
   }
+}
+
+if (daysCompletedCount === 0) {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      const button = document.getElementById("generateDatesButton");
+      button.click();
+    }, 10);
+  });
 }
