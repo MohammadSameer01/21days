@@ -14,6 +14,9 @@ body {
   perspective: 1000px;
   overflow-x: hidden;
 }
+.loadingClass {
+  transform: translate(0, -50px) !important;
+}
 header {
   height: 65px;
   align-content: center;
@@ -50,6 +53,7 @@ header {
 }
 .daysCompletedCount {
   color: black;
+  font-size: 1.25em;
 }
 .daysCompletedDisplayer span {
   display: grid;
@@ -87,6 +91,11 @@ header {
   font-size: 1em;
   font-weight: 450;
 }
+.reason span {
+  color: gray;
+  font-size: 0.9em;
+}
+
 .editButton {
   width: 15%;
   display: grid;
@@ -148,6 +157,8 @@ header {
   flex-direction: column;
   gap: 4px;
   background: #f3f3f3;
+
+  overflow: hidden;
 }
 
 .box {
@@ -357,6 +368,9 @@ footer {
   transform: rotateZ(-120deg);
   transform-origin: left;
 }
+.lidClose {
+  transform: rotate(0);
+}
 
 /* Handle */
 .trash-icon .lid .handle {
@@ -393,4 +407,14 @@ footer {
     transform: rotateZ(-120deg);
     transform-origin: left;
   }
+}
+
+/* Apply translation when swiped */
+.swiped-right {
+  transform: translateX(100px);
+  transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.swiped-left {
+  transform: translateX(-100px);
+  transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
