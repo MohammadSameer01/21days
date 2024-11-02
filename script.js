@@ -41,7 +41,7 @@ boxes.forEach((box, index) => {
       index === currentIndex &&
       box.innerHTML !== ""
     ) {
-      navigator.vibrate(100);
+      navigator.vibrate(25);
       box.classList.add("dayCompletedTransition");
       setTimeout(() => {
         box.classList.remove("box");
@@ -87,7 +87,7 @@ function daysCompletedCountFunc() {
 }
 
 function buttonBackgroundFunc() {
-  const maxDays = 21;
+  const maxDays = boxes.length;
   const percentage = (daysCompletedCount / maxDays) * 100;
   daysCompletedDisplayer.style.background = `linear-gradient(
     to right, 
@@ -103,7 +103,7 @@ function buttonBackgroundDisplayerFunc() {
 }
 
 function taskOverFunc() {
-  if (daysCompletedCount === 21) {
+  if (daysCompletedCount === boxes.length) {
     let allEle = document.querySelectorAll("*");
     allEle.forEach((ele) => {
       ele.classList.add("taskOverClass");
@@ -156,7 +156,6 @@ function formatDate(date) {
 clearStorageButton.addEventListener("click", () => {
   localStorage.clear();
   navigator.vibrate(200);
-  cleanSound.play();
 
   trashIconStylingsFunc();
 
@@ -171,13 +170,14 @@ clearStorageButton.addEventListener("click", () => {
   section.style.scale = ".15";
   section.style.transition = "1s ease";
   setTimeout(() => {
+    cleanSound.play();
     section.style.transform = "translate(0,400%)";
   }, 400);
 
   setTimeout(() => {
     document.body.style.display = "none";
     window.location.href = "";
-  }, 1000);
+  }, 1200);
 });
 
 function reasonEditFunc() {
@@ -220,6 +220,10 @@ function trashIconStylingsFunc() {
   trashContainer.classList.add("trashContainerStart");
   trashIcon.classList.add("trashIconStart");
   lid.classList.add("lidStart");
+
+  setTimeout(() => {
+    lid.classList.add("lidClose");
+  }, 600);
 }
 
 function inputDateContainerHideFunc() {
@@ -240,3 +244,42 @@ if (daysCompletedCount === 0) {
     }, 10);
   });
 }
+
+boxes.forEach((box) => {
+  let startX;
+
+  box.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  box.addEventListener("touchend", (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const distance = endX - startX;
+
+    // Remove any previous swipe classes
+    box.classList.remove("swiped-right", "swiped-left");
+
+    if (distance > 50) {
+      box.classList.add("swiped-right");
+      setTimeout(() => {
+        box.classList.remove("swiped-right");
+      }, 200);
+    } else if (distance < -50) {
+      box.classList.add("swiped-left");
+      navigator.vibrate(25);
+      setTimeout(() => {
+        box.classList.remove("swiped-left");
+
+        // Programmatically trigger a double-click event
+        const dblClickEvent = new Event("dblclick");
+        box.dispatchEvent(dblClickEvent);
+      }, 200);
+    }
+  });
+});
+
+setTimeout(() => {
+  allDivs.forEach((div) => {
+    div.classList.remove("loadingClass");
+  });
+}, 300);
