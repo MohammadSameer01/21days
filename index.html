@@ -13,7 +13,7 @@
     />
 
     <meta name="theme-color" content="darkblue" />
-    <link rel="icon" type="jpg" href="assets/logo.jpg" />
+    <link rel="icon" href="assets/logo.jpg" />
 
     <meta
       name="description"
@@ -21,6 +21,7 @@
     />
 
     <link rel="stylesheet" href="styles.css" />
+
     <style>
       svg {
         height: 0;
@@ -43,9 +44,7 @@
       </div>
     </header>
     <div class="reasonDisplayer">
-      <div class="reason">
-        Commit to a personal or professional goal for 21 straight days
-      </div>
+      <div class="reason"><span>Try:</span> Quit Smoking</div>
       <div class="editButton">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -104,6 +103,14 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      let allDivs = document.querySelectorAll("*");
+
+      allDivs.forEach((div) => {
+        div.classList.add("loadingClass");
+      });
+    </script>
     <script src="script.js"></script>
     <script>
       // Function to load saved state from localStorage
