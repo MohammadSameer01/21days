@@ -13,7 +13,7 @@ boxes.forEach((box, index) => {
   if (localStorage.getItem(`box${index}`) === "completed") {
     box.classList.remove("box");
     box.classList.add("dayCompletedClass");
-    dayCompletedEffectFunction(box); // Add completed text and class
+    dayCompletedEffectFunction(box);
   }
 });
 
@@ -108,10 +108,11 @@ function taskOverFunc() {
     allEle.forEach((ele) => {
       ele.classList.add("taskOverClass");
       daysCompletedDisplayer.style.background = "transparent";
-
-      let section = document.querySelector("section");
-      section.setAttribute("class", "taskOverSection");
     });
+    let footer = document.querySelector("footer");
+    footer.classList.add("fixedFooter");
+    let section = document.querySelector("section");
+    section.setAttribute("class", "taskOverSection");
   }
 }
 
@@ -159,8 +160,6 @@ clearStorageButton.addEventListener("click", () => {
 
   trashIconStylingsFunc();
 
-  // clearStorageButton.style.width = "100%";
-  // clearStorageButton.style.justifyContent = "unset";
   clearStorageButton.style.display = "none";
 
   let text = document.querySelector(".clearStorage p");
@@ -191,7 +190,6 @@ function reasonEditFunc() {
   ) {
     reason.innerText = newReason;
 
-    // Store the new reason in localStorage
     localStorage.setItem("challengeTitle", newReason);
   } else {
     alert("Please enter a valid title.");
@@ -256,7 +254,6 @@ boxes.forEach((box) => {
     const endX = e.changedTouches[0].clientX;
     const distance = endX - startX;
 
-    // Remove any previous swipe classes
     box.classList.remove("swiped-right", "swiped-left");
 
     if (distance > 50) {
@@ -270,7 +267,6 @@ boxes.forEach((box) => {
       setTimeout(() => {
         box.classList.remove("swiped-left");
 
-        // Programmatically trigger a double-click event
         const dblClickEvent = new Event("dblclick");
         box.dispatchEvent(dblClickEvent);
       }, 200);
