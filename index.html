@@ -60,27 +60,9 @@
         <button id="generateDatesButton">Generate Dates</button>
       </div>
       <div class="container">
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
+        <!-- <div class="box">
+          boxes here.............
+        </div> -->
       </div>
     </section>
     <footer>
@@ -104,6 +86,19 @@
       </div>
     </footer>
 
+    <script>
+      let container = document.querySelector(".container");
+      let challengeTotalDays = 21;
+
+      function createBoxElements() {
+        for (i = 1; i <= challengeTotalDays; i++) {
+          let box = document.createElement("div");
+          box.setAttribute("class", "box");
+          container.append(box);
+        }
+      }
+      createBoxElements();
+    </script>
     <script>
       let allDivs = document.querySelectorAll("*");
 
@@ -168,7 +163,6 @@
         .getElementById("generateDatesButton")
         .addEventListener("click", () => {
           // Get the selected start date
-          navigator.vibrate(25);
           const startDateInput =
             document.getElementById("startDateInput").value;
           if (!startDateInput) return alert("Please select a start date.");
@@ -194,5 +188,16 @@
         startDateInput.max = formattedDate;
       });
     </script>
+
+    <!-- TCode -->
+    <!-- <script>
+      currentIndex = 20;
+      daysCompletedCount = 20;
+
+      boxes.forEach((box) => {
+        box.classList.add("dayCompletedClass");
+      });
+      boxes[20].classList.remove("dayCompletedClass");
+    </script> -->
   </body>
 </html>
